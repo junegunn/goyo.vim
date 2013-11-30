@@ -47,7 +47,7 @@ function! s:init_pad(command)
 
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
         \ nonu nocursorline colorcolumn=
-        \ statusline=\  winwidth=1 winheight=1
+        \ statusline=\ winfixwidth winfixheight
   let bufnr = winbufnr(0)
 
   execute winnr('#') . 'wincmd w'
@@ -111,7 +111,9 @@ function! s:goyo_on(width)
   let t:goyo_revert =
     \ { 'laststatus':  &laststatus,
     \   'showtabline': &showtabline,
-    \   'fillchars':   &fillchars }
+    \   'fillchars':   &fillchars,
+    \   'winwidth':    &winwidth,
+    \   'winheight':   &winheight }
 
   " gitgutter
   let t:goyo_disabled_gitgutter = get(g:, 'gitgutter_enabled', 0)
@@ -122,6 +124,8 @@ function! s:goyo_on(width)
   setlocal colorcolumn=
   setlocal statusline=\ 
 
+  set winwidth=1
+  set winheight=1
   set laststatus=0
   set showtabline=0
   set fillchars+=vert:\ 
