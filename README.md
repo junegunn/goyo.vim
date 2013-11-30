@@ -9,7 +9,7 @@ Installation
 Use your favorite plugin manager.
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
-  1. Add `Plug 'junegunn/vim-ruby-x'` to .vimrc
+  1. Add `Plug 'junegunn/goyo.vim'` to .vimrc
   2. Run `:PlugInstall`
 
 Usage
