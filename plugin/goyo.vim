@@ -46,7 +46,7 @@ function! s:init_pad(command)
   execute a:command
 
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
-        \ nonu nocursorline laststatus=0 colorcolumn=
+        \ nonu nocursorline colorcolumn=
         \ statusline=\  winwidth=1 winheight=1
   let bufnr = winbufnr(0)
 
@@ -88,8 +88,14 @@ function! s:tranquilize()
   let bg = s:get_color('Normal', 'bg')
   for grp in ['NonText', 'FoldColumn', 'ColorColumn', 'VertSplit',
             \ 'StatusLine', 'StatusLineNC', 'SignColumn']
-    call s:set_color(grp, 'fg', bg)
-    call s:set_color(grp, 'bg', bg)
+    if bg == -1
+      call s:set_color(grp, '', 'NONE')
+      call s:set_color(grp, 'fg', get(g:, 'goyo_bg', 'black'))
+      call s:set_color(grp, 'bg', 'NONE')
+    else
+      call s:set_color(grp, 'fg', bg)
+      call s:set_color(grp, 'bg', bg)
+    endif
   endfor
 endfunction
 
@@ -103,8 +109,9 @@ function! s:goyo_on(width)
 
   let t:goyo_pads = {}
   let t:goyo_revert =
-    \ { 'laststatus': &l:laststatus, 'statusline': &l:statusline,
-    \   'showtabline': &showtabline, 'colorcolumn': &l:colorcolumn }
+    \ { 'laststatus':  &laststatus,
+    \   'showtabline': &showtabline,
+    \   'fillchars':   &fillchars }
 
   " gitgutter
   let t:goyo_disabled_gitgutter = get(g:, 'gitgutter_enabled', 0)
@@ -113,9 +120,13 @@ function! s:goyo_on(width)
   endif
 
   setlocal colorcolumn=
-  setlocal laststatus=0
   setlocal statusline=\ 
-  setlocal showtabline=0
+
+  set laststatus=0
+  set showtabline=0
+  set fillchars+=vert:\ 
+  set fillchars+=stl:.
+  set fillchars+=stlnc:\ 
 
   let t:goyo_pads.l = s:init_pad('vertical new')
   let t:goyo_pads.r = s:init_pad('vertical rightbelow new')
@@ -145,7 +156,7 @@ function! s:goyo_off()
   endif
 
   for [k, v] in items(t:goyo_revert)
-    execute printf("setlocal %s=%s", k, v)
+    execute printf("setlocal %s=%s", k, escape(v, ' |'))
   endfor
   execute 'colo '. g:colors_name
 
