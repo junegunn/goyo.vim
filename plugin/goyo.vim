@@ -127,7 +127,7 @@ function! s:goyo_on(width)
 
   augroup goyo
     autocmd!
-    autocmd  TabLeave,BufDelete,BufHidden,BufUnload <buffer> call s:goyo_off()
+    autocmd  TabLeave,BufWinLeave <buffer> call s:goyo_off()
     autocmd  VimResized  * call s:resize_pads()
     autocmd  ColorScheme * call s:tranquilize()
   augroup END
