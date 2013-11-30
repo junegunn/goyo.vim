@@ -58,70 +58,81 @@ function! s:setup_pad(bufnr, vert, size)
   let win = bufwinnr(a:bufnr)
   execute win . 'wincmd w'
   execute (a:vert ? 'vertical ' : '') . 'resize ' . max([0, a:size])
-  autocmd WinEnter <buffer> call s:blank()
+  augroup goyop
+    autocmd WinEnter <buffer> call s:blank()
+  augroup END
   execute winnr('#') . 'wincmd w'
 endfunction
 
 function! s:hmargin()
   let nwidth = max([len(string(line('$'))) + 1, &numberwidth])
-  let width  = get(g:, 'goyo_width', 80) + (&number ? nwidth : 0)
+  let width  = t:goyo_width + (&number ? nwidth : 0)
   return (&columns - width)
 endfunction
 
-function! s:resize_pads(pads)
+function! s:resize_pads()
   let hmargin = s:hmargin()
   let tmargin = get(g:, 'goyo_margin_top', 4)
   let bmargin = get(g:, 'goyo_margin_bottom', 4)
 
-  call s:setup_pad(a:pads.l, 1, hmargin / 2 - 1)
-  call s:setup_pad(a:pads.r, 1, hmargin / 2 - 1)
-  call s:setup_pad(a:pads.t, 0, tmargin - 1)
-  call s:setup_pad(a:pads.b, 0, bmargin - 2)
+  augroup goyop
+    autocmd!
+  augroup END
+  call s:setup_pad(t:goyo_pads.l, 1, hmargin / 2 - 1)
+  call s:setup_pad(t:goyo_pads.r, 1, hmargin / 2 - 1)
+  call s:setup_pad(t:goyo_pads.t, 0, tmargin - 1)
+  call s:setup_pad(t:goyo_pads.b, 0, bmargin - 2)
 endfunction
 
 function! s:tranquilize()
   let bg = s:get_color('Normal', 'bg')
   for grp in ['NonText', 'FoldColumn', 'ColorColumn', 'VertSplit',
-            \ 'StatusLine', 'StatusLineNC']
+            \ 'StatusLine', 'StatusLineNC', 'SignColumn']
     call s:set_color(grp, 'fg', bg)
     call s:set_color(grp, 'bg', bg)
   endfor
 endfunction
 
-function! s:goyo_on()
+function! s:goyo_on(width)
   " New tab
   tab split
 
   let t:goyo_master = winbufnr(0)
+  let t:goyo_width  = a:width
   setlocal nonu nornu
 
-  let pads = {}
+  let t:goyo_pads = {}
   let t:goyo_revert =
     \ { 'laststatus': &l:laststatus, 'statusline': &l:statusline,
     \   'showtabline': &showtabline, 'colorcolumn': &l:colorcolumn }
 
-  let pads.l = s:init_pad('vertical new')
-  let pads.r = s:init_pad('vertical rightbelow new')
-  let pads.t = s:init_pad('topleft new')
-  let pads.b = s:init_pad('botright new')
-  call s:resize_pads(pads)
-
-  augroup goyo
-    autocmd!
-    autocmd  TabLeave,BufDelete,BufHidden,BufUnload <buffer> call s:goyo_off()
-    autocmd  VimResized  * call s:resize_pads(get(t:, 'goyo_pads', {}))
-    autocmd  ColorScheme * call s:tranquilize()
-  augroup END
-
-  call s:tranquilize()
+  " gitgutter
+  let t:goyo_disabled_gitgutter = get(g:, 'gitgutter_enabled', 0)
+  if t:goyo_disabled_gitgutter
+    GitGutterDisable
+  endif
 
   setlocal colorcolumn=
   setlocal laststatus=0
   setlocal statusline=\ 
   setlocal showtabline=0
 
+  let t:goyo_pads.l = s:init_pad('vertical new')
+  let t:goyo_pads.r = s:init_pad('vertical rightbelow new')
+  let t:goyo_pads.t = s:init_pad('topleft new')
+  let t:goyo_pads.b = s:init_pad('botright new')
+
+  call s:resize_pads()
+  call s:tranquilize()
+
+  augroup goyo
+    autocmd!
+    autocmd  TabLeave,BufDelete,BufHidden,BufUnload <buffer> call s:goyo_off()
+    autocmd  VimResized  * call s:resize_pads()
+    autocmd  ColorScheme * call s:tranquilize()
+  augroup END
+
   let t:goyohan = 1
-  let t:goyo_pads = pads
 endfunction
 
 function! s:goyo_off()
@@ -138,24 +149,32 @@ function! s:goyo_off()
   endfor
   execute 'colo '. g:colors_name
 
+  if t:goyo_disabled_gitgutter
+    GitGutterEnable
+  endif
+
   if tabpagenr() == 1
     tabnew
     normal! gt
     bd
   endif
   tabclose
-
 endfunction
 
-function! s:goyo()
+function! s:goyo(...)
+  let width = a:0 > 0 ? a:1 : get(g:, 'goyo_width', 80)
+
   if get(t:, 'goyohan', 0) == 0
-    call s:goyo_on()
+    call s:goyo_on(width)
+  elseif a:0 > 0
+    let t:goyo_width = width
+    call s:resize_pads()
   else
     call s:goyo_off()
   end
 endfunction
 
-command! Goyo call s:goyo()
+command! -nargs=? Goyo call s:goyo(<args>)
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

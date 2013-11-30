@@ -15,7 +15,7 @@ Use your favorite plugin manager.
 Usage
 -----
 
-`:Goyo`
+`:Goyo [width]`
 
 Configuration
 -------------
