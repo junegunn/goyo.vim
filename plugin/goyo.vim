@@ -126,7 +126,6 @@ function! s:goyo_on(width)
 
   set nonu nornu
   set colorcolumn=
-  set statusline=\ 
   set winwidth=1
   set winheight=1
   set laststatus=0
@@ -142,6 +141,8 @@ function! s:goyo_on(width)
 
   call s:resize_pads()
   call s:tranquilize()
+
+  let &statusline = repeat(' ', winwidth(0))
 
   augroup goyo
     autocmd!
