@@ -105,15 +105,18 @@ function! s:goyo_on(width)
 
   let t:goyo_master = winbufnr(0)
   let t:goyo_width  = a:width
-  setlocal nonu nornu
-
   let t:goyo_pads = {}
   let t:goyo_revert =
-    \ { 'laststatus':  &laststatus,
-    \   'showtabline': &showtabline,
-    \   'fillchars':   &fillchars,
-    \   'winwidth':    &winwidth,
-    \   'winheight':   &winheight }
+    \ { 'laststatus':     &laststatus,
+    \   'showtabline':    &showtabline,
+    \   'fillchars':      &fillchars,
+    \   'winwidth':       &winwidth,
+    \   'winheight':      &winheight,
+    \   'number':         &number,
+    \   'relativenumber': &relativenumber,
+    \   'colorcolumn':    &colorcolumn,
+    \   'statusline':     &statusline
+    \ }
 
   " gitgutter
   let t:goyo_disabled_gitgutter = get(g:, 'gitgutter_enabled', 0)
@@ -121,9 +124,9 @@ function! s:goyo_on(width)
     GitGutterDisable
   endif
 
-  setlocal colorcolumn=
-  setlocal statusline=\ 
-
+  set nonu nornu
+  set colorcolumn=
+  set statusline=\ 
   set winwidth=1
   set winheight=1
   set laststatus=0
@@ -142,9 +145,10 @@ function! s:goyo_on(width)
 
   augroup goyo
     autocmd!
-    autocmd  TabLeave,BufWinLeave <buffer> call s:goyo_off()
-    autocmd  VimResized  * call s:resize_pads()
-    autocmd  ColorScheme * call s:tranquilize()
+    autocmd BufWinLeave <buffer> call s:goyo_off()
+    autocmd TabLeave    *        call s:goyo_off()
+    autocmd VimResized  *        call s:resize_pads()
+    autocmd ColorScheme *        call s:tranquilize()
   augroup END
 
   let t:goyohan = 1
@@ -160,7 +164,7 @@ function! s:goyo_off()
   endif
 
   for [k, v] in items(t:goyo_revert)
-    execute printf("setlocal %s=%s", k, escape(v, ' |'))
+    execute printf("let &%s = %s", k, string(v))
   endfor
   execute 'colo '. g:colors_name
 
