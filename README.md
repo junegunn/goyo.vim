@@ -1,7 +1,7 @@
 goyo.vim (고요)
 ===============
 
-Distraction-free-writing in Vim.
+Distraction-free writing in Vim.
 
 ![](https://raw.github.com/junegunn/i/master/goyo.png)
 
