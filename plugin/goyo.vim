@@ -47,7 +47,7 @@ function! s:init_pad(command)
 
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
         \ nonu nocursorline colorcolumn=
-        \ statusline=\ winfixwidth winfixheight
+        \ winfixwidth winfixheight statusline=\ 
   let bufnr = winbufnr(0)
 
   execute winnr('#') . 'wincmd w'
