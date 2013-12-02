@@ -223,6 +223,10 @@ function! s:goyo_off()
     doautocmd PowerlineStartup VimEnter
     silent! PowerlineReloadColorscheme
   endif
+
+  if exists('#Powerline')
+    doautocmd Powerline ColorScheme
+  endif
 endfunction
 
 function! s:goyo(...)
