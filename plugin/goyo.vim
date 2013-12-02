@@ -48,7 +48,6 @@ function! s:init_pad(command)
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
         \ nonu nocursorline colorcolumn=
         \ winfixwidth winfixheight statusline=\ 
-        \ noruler
   let bufnr = winbufnr(0)
 
   execute winnr('#') . 'wincmd w'
@@ -157,6 +156,7 @@ function! s:goyo_on(width)
   set winheight=1
   set laststatus=0
   set showtabline=0
+  set noruler
   set fillchars+=vert:\ 
   set fillchars+=stl:.
   set fillchars+=stlnc:\ 
