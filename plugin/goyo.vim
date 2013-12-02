@@ -61,6 +61,14 @@ function! s:setup_pad(bufnr, vert, size)
   augroup goyop
     autocmd WinEnter <buffer> call s:blank()
   augroup END
+
+  let diff = winheight(0) - line('$')
+  if diff > 0
+    set modifiable
+    call append(0, map(range(1, diff), '""'))
+    normal! gg
+    set nomodifiable
+  endif
   execute winnr('#') . 'wincmd w'
 endfunction
 
@@ -78,10 +86,10 @@ function! s:resize_pads()
   augroup goyop
     autocmd!
   augroup END
-  call s:setup_pad(t:goyo_pads.l, 1, hmargin / 2 - 1)
-  call s:setup_pad(t:goyo_pads.r, 1, hmargin / 2 - 1)
   call s:setup_pad(t:goyo_pads.t, 0, tmargin - 1)
   call s:setup_pad(t:goyo_pads.b, 0, bmargin - 2)
+  call s:setup_pad(t:goyo_pads.l, 1, hmargin / 2 - 1)
+  call s:setup_pad(t:goyo_pads.r, 1, hmargin / 2 - 1)
 endfunction
 
 function! s:tranquilize()
