@@ -46,7 +46,7 @@ function! s:init_pad(command)
   execute a:command
 
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
-        \ nonu nocursorline colorcolumn=
+        \ nonu nornu nocursorline colorcolumn=
         \ winfixwidth winfixheight statusline=\ 
   let bufnr = winbufnr(0)
 
