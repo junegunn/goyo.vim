@@ -132,6 +132,12 @@ function! s:goyo_on(width)
     GitGutterDisable
   endif
 
+  " airline
+  let t:goyo_disabled_airline = exists("#airline")
+  if t:goyo_disabled_airline
+    AirlineToggle
+  endif
+
   if !get(g:, 'goyo_linenr', 0)
     set nonu nornu
   endif
@@ -161,27 +167,26 @@ function! s:goyo_on(width)
     autocmd VimResized  *        call s:resize_pads()
     autocmd ColorScheme *        call s:tranquilize()
   augroup END
-
-  let t:goyohan = 1
 endfunction
 
 function! s:goyo_off()
-  augroup goyo
-    autocmd!
-  augroup END
-
-  if !exists('t:goyohan')
+  if !exists('#goyo')
     return
   endif
 
-  for [k, v] in items(t:goyo_revert)
-    execute printf("let &%s = %s", k, string(v))
-  endfor
-  execute 'colo '. g:colors_name
+  " Clear auto commands
+  augroup goyo
+    autocmd!
+  augroup END
+  augroup! goyo
+  augroup goyop
+    autocmd!
+  augroup END
+  augroup! goyop
 
-  if t:goyo_disabled_gitgutter
-    GitGutterEnable
-  endif
+  let goyo_revert = t:goyo_revert
+  let goyo_disabled_gitgutter = t:goyo_disabled_gitgutter
+  let goyo_disabled_airline = t:goyo_disabled_airline
 
   if tabpagenr() == 1
     tabnew
@@ -189,12 +194,25 @@ function! s:goyo_off()
     bd
   endif
   tabclose
+
+  for [k, v] in items(goyo_revert)
+    execute printf("let &%s = %s", k, string(v))
+  endfor
+  execute 'colo '. g:colors_name
+
+  if goyo_disabled_gitgutter
+    GitGutterEnable
+  endif
+
+  if goyo_disabled_airline
+    AirlineToggle
+  endif
 endfunction
 
 function! s:goyo(...)
   let width = a:0 > 0 ? a:1 : get(g:, 'goyo_width', 80)
 
-  if get(t:, 'goyohan', 0) == 0
+  if exists('#goyo') == 0
     call s:goyo_on(width)
   elseif a:0 > 0
     let t:goyo_width = width
