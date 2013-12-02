@@ -25,6 +25,7 @@ Configuration
 - `g:goyo_width` (default: 80)
 - `g:goyo_margin_top` (default: 4)
 - `g:goyo_margin_bottom` (default: 4)
+- `g:goyo_linenr` (default: 0)
 
 Inspiration
 -----------

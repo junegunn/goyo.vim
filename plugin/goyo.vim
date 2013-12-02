@@ -132,7 +132,9 @@ function! s:goyo_on(width)
     GitGutterDisable
   endif
 
-  set nonu nornu
+  if !get(g:, 'goyo_linenr', 0)
+    set nonu nornu
+  endif
   set colorcolumn=
   set winwidth=1
   set winheight=1
