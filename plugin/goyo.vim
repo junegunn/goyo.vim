@@ -120,9 +120,6 @@ function! s:goyo_on(width)
     \   'fillchars':      &fillchars,
     \   'winwidth':       &winwidth,
     \   'winheight':      &winheight,
-    \   'number':         &number,
-    \   'relativenumber': &relativenumber,
-    \   'colorcolumn':    &colorcolumn,
     \   'statusline':     &statusline,
     \   'ruler':          &ruler
     \ }
