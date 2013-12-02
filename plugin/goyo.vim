@@ -126,16 +126,25 @@ function! s:goyo_on(width)
     \   'statusline':     &statusline
     \ }
 
-  " gitgutter
+  " vim-gitgutter
   let t:goyo_disabled_gitgutter = get(g:, 'gitgutter_enabled', 0)
   if t:goyo_disabled_gitgutter
     GitGutterDisable
   endif
 
-  " airline
+  " vim-airline
   let t:goyo_disabled_airline = exists("#airline")
   if t:goyo_disabled_airline
     AirlineToggle
+  endif
+
+  " vim-powerline
+  let t:goyo_disabled_powerline = exists("#PowerlineMain")
+  if t:goyo_disabled_powerline
+    augroup PowerlineMain
+      autocmd!
+    augroup END
+    augroup! PowerlineMain
   endif
 
   if !get(g:, 'goyo_linenr', 0)
@@ -184,9 +193,10 @@ function! s:goyo_off()
   augroup END
   augroup! goyop
 
-  let goyo_revert = t:goyo_revert
+  let goyo_revert             = t:goyo_revert
   let goyo_disabled_gitgutter = t:goyo_disabled_gitgutter
-  let goyo_disabled_airline = t:goyo_disabled_airline
+  let goyo_disabled_airline   = t:goyo_disabled_airline
+  let goyo_disabled_powerline = t:goyo_disabled_powerline
 
   if tabpagenr() == 1
     tabnew
@@ -204,8 +214,14 @@ function! s:goyo_off()
     GitGutterEnable
   endif
 
-  if goyo_disabled_airline
+  if goyo_disabled_airline && !exists("#airline")
     AirlineToggle
+    AirlineRefresh
+  endif
+
+  if goyo_disabled_powerline && !exists("#PowerlineMain")
+    doautocmd PowerlineStartup VimEnter
+    silent! PowerlineReloadColorscheme
   endif
 endfunction
 
