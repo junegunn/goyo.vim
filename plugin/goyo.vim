@@ -48,6 +48,7 @@ function! s:init_pad(command)
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
         \ nonu nocursorline colorcolumn=
         \ winfixwidth winfixheight statusline=\ 
+        \ noruler
   let bufnr = winbufnr(0)
 
   execute winnr('#') . 'wincmd w'
@@ -123,7 +124,8 @@ function! s:goyo_on(width)
     \   'number':         &number,
     \   'relativenumber': &relativenumber,
     \   'colorcolumn':    &colorcolumn,
-    \   'statusline':     &statusline
+    \   'statusline':     &statusline,
+    \   'ruler':          &ruler
     \ }
 
   " vim-gitgutter
