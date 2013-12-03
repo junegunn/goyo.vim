@@ -168,6 +168,10 @@ function! s:goyo_on(width)
 
   let &statusline = repeat(' ', winwidth(0))
 
+  if exists('g:goyo_callbacks[0]')
+    call g:goyo_callbacks[0]()
+  endif
+
   augroup goyo
     autocmd!
     autocmd BufWinLeave <buffer> call s:goyo_off()
@@ -230,6 +234,10 @@ function! s:goyo_off()
 
   if exists('#Powerline')
     doautocmd Powerline ColorScheme
+  endif
+
+  if exists('g:goyo_callbacks[1]')
+    call g:goyo_callbacks[1]()
   endif
 endfunction
 
