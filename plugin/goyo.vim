@@ -182,6 +182,11 @@ function! s:goyo_off()
     return
   endif
 
+  " Oops, not this tab
+  if !exists('t:goyo_revert')
+    return
+  endif
+
   " Clear auto commands
   augroup goyo
     autocmd!
