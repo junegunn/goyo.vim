@@ -65,10 +65,10 @@ function! s:setup_pad(bufnr, vert, size)
   " To hide scrollbars of pad windows in GVim
   let diff = winheight(0) - line('$') - (has('gui_running') ? 2 : 0)
   if diff > 0
-    set modifiable
+    setlocal modifiable
     call append(0, map(range(1, diff), '""'))
     normal! gg
-    set nomodifiable
+    setlocal nomodifiable
   endif
   execute winnr('#') . 'wincmd w'
 endfunction
