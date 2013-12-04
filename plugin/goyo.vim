@@ -123,7 +123,9 @@ function! s:goyo_on(width)
     \   'winwidth':       &winwidth,
     \   'winheight':      &winheight,
     \   'statusline':     &statusline,
-    \   'ruler':          &ruler
+    \   'ruler':          &ruler,
+    \   'sidescroll':     &sidescroll,
+    \   'sidescrolloff':  &sidescrolloff
     \ }
   if has('gui_running')
     let t:goyo_revert.guioptions = &guioptions
@@ -162,6 +164,8 @@ function! s:goyo_on(width)
   set fillchars+=vert:\ 
   set fillchars+=stl:.
   set fillchars+=stlnc:\ 
+  set sidescroll=1
+  set sidescrolloff=0
 
   " Hide left-hand scrollbars
   if has('gui_running')
