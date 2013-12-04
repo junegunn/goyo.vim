@@ -1,5 +1,5 @@
-goyo.vim (고요)
-===============
+goyo.vim ([고요](http://en.wiktionary.org/wiki/고요하다))
+=========================================================
 
 Distraction-free writing in Vim.
 
