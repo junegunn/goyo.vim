@@ -46,8 +46,14 @@ function! s:init_pad(command)
   execute a:command
 
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
-        \ nonu nornu nocursorline colorcolumn=
+        \ nonu nocursorline
         \ winfixwidth winfixheight statusline=\ 
+	if has ('nornu')
+		setlocal nornu
+	endif
+	if has ('colorcolumn')
+		setlocal colorcolumn=
+	endif
   let bufnr = winbufnr(0)
 
   execute winnr('#') . 'wincmd w'
@@ -153,9 +159,14 @@ function! s:goyo_on(width)
   endif
 
   if !get(g:, 'goyo_linenr', 0)
-    set nonu nornu
+    set nonu
   endif
-  set colorcolumn=
+  if !get(g:, 'goyo_linenr', 0) && has('nornu')
+    set nornu
+  endif
+	if has ('colorcolumn')
+		set colorcolumn=
+	endif
   set winwidth=1
   set winheight=1
   set laststatus=0
