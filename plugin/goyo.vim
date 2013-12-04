@@ -62,7 +62,8 @@ function! s:setup_pad(bufnr, vert, size)
     autocmd WinEnter <buffer> call s:blank()
   augroup END
 
-  let diff = winheight(0) - line('$')
+  " To hide scrollbars of pad windows in GVim
+  let diff = winheight(0) - line('$') - (has('gui_running') ? 2 : 0)
   if diff > 0
     set modifiable
     call append(0, map(range(1, diff), '""'))
@@ -96,7 +97,8 @@ function! s:tranquilize()
   let bg = s:get_color('Normal', 'bg')
   for grp in ['NonText', 'FoldColumn', 'ColorColumn', 'VertSplit',
             \ 'StatusLine', 'StatusLineNC', 'SignColumn']
-    if bg == -1
+    " -1 on Vim / '' on GVim
+    if bg == -1 || empty(bg)
       call s:set_color(grp, '', 'NONE')
       call s:set_color(grp, 'fg', get(g:, 'goyo_bg', 'black'))
       call s:set_color(grp, 'bg', 'NONE')
@@ -123,6 +125,9 @@ function! s:goyo_on(width)
     \   'statusline':     &statusline,
     \   'ruler':          &ruler
     \ }
+  if has('gui_running')
+    let t:goyo_revert.guioptions = &guioptions
+  endif
 
   " vim-gitgutter
   let t:goyo_disabled_gitgutter = get(g:, 'gitgutter_enabled', 0)
@@ -157,6 +162,12 @@ function! s:goyo_on(width)
   set fillchars+=vert:\ 
   set fillchars+=stl:.
   set fillchars+=stlnc:\ 
+
+  " Hide left-hand scrollbars
+  if has('gui_running')
+    set guioptions-=l
+    set guioptions-=L
+  endif
 
   let t:goyo_pads.l = s:init_pad('vertical new')
   let t:goyo_pads.r = s:init_pad('vertical rightbelow new')
