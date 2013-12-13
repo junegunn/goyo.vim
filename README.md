@@ -43,11 +43,15 @@ callbacks as follows in your .vimrc.
 ```vim
 function! s:goyo_before()
   silent !tmux set status off
+  set noshowmode
+  set noshowcmd
   " ...
 endfunction
 
 function! s:goyo_after()
   silent !tmux set status on
+  set showmode
+  set showcmd
   " ...
 endfunction
 
