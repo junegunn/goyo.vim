@@ -195,8 +195,15 @@ function! s:goyo_on(width)
 
   let &statusline = repeat(' ', winwidth(0))
 
+  " be backward compatible
   if exists('g:goyo_callbacks[0]')
     call g:goyo_callbacks[0]()
+  endif
+
+  if exists('g:goyo_before_callbacks')
+    for F in g:goyo_before_callbacks
+      call F()
+    endfor
   endif
 
   augroup goyo
@@ -263,8 +270,15 @@ function! s:goyo_off()
     doautocmd Powerline ColorScheme
   endif
 
+  " be backward compatible
   if exists('g:goyo_callbacks[1]')
     call g:goyo_callbacks[1]()
+  endif
+
+  if exists('g:goyo_after_callbacks')
+    for F in g:goyo_after_callbacks
+      call F()
+    endfor
   endif
 endfunction
 
