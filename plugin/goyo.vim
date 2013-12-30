@@ -185,8 +185,8 @@ function! s:goyo_on(width)
     set guioptions-=L
   endif
 
-  let t:goyo_pads.l = s:init_pad('vertical new')
-  let t:goyo_pads.r = s:init_pad('vertical rightbelow new')
+  let t:goyo_pads.l = s:init_pad('vertical topleft new')
+  let t:goyo_pads.r = s:init_pad('vertical botright new')
   let t:goyo_pads.t = s:init_pad('topleft new')
   let t:goyo_pads.b = s:init_pad('botright new')
 
