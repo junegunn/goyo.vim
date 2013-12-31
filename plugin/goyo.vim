@@ -126,6 +126,7 @@ function! s:goyo_on(width)
     \   'showtabline':    &showtabline,
     \   'fillchars':      &fillchars,
     \   'winwidth':       &winwidth,
+    \   'winminheight':   &winminheight,
     \   'winheight':      &winheight,
     \   'statusline':     &statusline,
     \   'ruler':          &ruler,
@@ -169,6 +170,7 @@ function! s:goyo_on(width)
 
   " Global options
   set winwidth=1
+  set winminheight=1
   set winheight=1
   set laststatus=0
   set showtabline=0
