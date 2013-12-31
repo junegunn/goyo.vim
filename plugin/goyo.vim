@@ -170,6 +170,7 @@ function! s:goyo_on(width)
 
   " Global options
   set winwidth=1
+  let &winheight = max([&winminheight, 1])
   set winminheight=1
   set winheight=1
   set laststatus=0
@@ -241,6 +242,12 @@ function! s:goyo_off()
     bd
   endif
   tabclose
+
+  let wmh = remove(goyo_revert, 'winminheight')
+  let wh  = remove(goyo_revert, 'winheight')
+  let &winheight    = max([wmh, 1])
+  let &winminheight = wmh
+  let &winheight    = wh
 
   for [k, v] in items(goyo_revert)
     execute printf("let &%s = %s", k, string(v))
