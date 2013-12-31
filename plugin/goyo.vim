@@ -140,7 +140,7 @@ function! s:goyo_on(width)
   " vim-gitgutter
   let t:goyo_disabled_gitgutter = get(g:, 'gitgutter_enabled', 0)
   if t:goyo_disabled_gitgutter
-    GitGutterDisable
+    silent! GitGutterDisable
   endif
 
   " vim-airline
@@ -248,7 +248,7 @@ function! s:goyo_off()
   execute 'colo '. g:colors_name
 
   if goyo_disabled_gitgutter
-    GitGutterEnable
+    silent! GitGutterEnable
   endif
 
   if goyo_disabled_airline && !exists("#airline")
