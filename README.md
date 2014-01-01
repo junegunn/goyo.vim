@@ -68,6 +68,21 @@ Inspiration
 - [LiteDFM](https://github.com/bilalq/lite-dfm)
 - [VimRoom](http://projects.mikewest.org/vimroom/)
 
+Pros.
+-----
+
+1. Works well with splits. Doesn't mess up with the current window arrangement
+1. Works well with popular statusline plugins
+1. Prevents accessing empty windows around the central buffer
+1. Can be closed with any of `:q[uit]`, `:clo[se]`, `:tabc[lose]`, `:bd[elete]`,
+   or `:Goyo`
+1. Can dynamically change the width of the window
+1. Automatically adjusts its colors when color scheme is changed
+1. Automatically realigns the window when the terminal (or window) is resized or
+   when the size of the font is changed
+1. Correctly hides colorcolumns and Emojis in statusline
+1. Highly customizable with callbacks
+
 License
 -------
 
