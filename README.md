@@ -32,7 +32,8 @@ Configuration
 
 By default, [vim-airline](https://github.com/bling/vim-airline),
 [vim-powerline](https://github.com/Lokaltog/vim-powerline),
-[powerline](https://github.com/Lokaltog/powerline), and
+[powerline](https://github.com/Lokaltog/powerline),
+[lightline.vim](https://github.com/itchyny/lightline.vim), and
 [vim-gitgutter](https://github.com/airblade/vim-gitgutter) are temporarily
 disabled while in Goyo mode.
 

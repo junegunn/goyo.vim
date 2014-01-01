@@ -158,6 +158,12 @@ function! s:goyo_on(width)
     augroup! PowerlineMain
   endif
 
+  " lightline.vim
+  let t:goyo_disabled_lightline = exists('#LightLine')
+  if t:goyo_disabled_lightline
+    silent! call lightline#disable()
+  endif
+
   if !get(g:, 'goyo_linenr', 0)
     setlocal nonu
     if exists('&rnu')
@@ -235,6 +241,7 @@ function! s:goyo_off()
   let goyo_disabled_gitgutter = t:goyo_disabled_gitgutter
   let goyo_disabled_airline   = t:goyo_disabled_airline
   let goyo_disabled_powerline = t:goyo_disabled_powerline
+  let goyo_disabled_lightline = t:goyo_disabled_lightline
 
   if tabpagenr() == 1
     tabnew
@@ -266,6 +273,10 @@ function! s:goyo_off()
   if goyo_disabled_powerline && !exists("#PowerlineMain")
     doautocmd PowerlineStartup VimEnter
     silent! PowerlineReloadColorscheme
+  endif
+
+  if goyo_disabled_lightline
+    silent! call lightline#enable()
   endif
 
   if exists('#Powerline')
