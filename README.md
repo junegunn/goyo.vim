@@ -5,6 +5,8 @@ Distraction-free writing in Vim.
 
 ![](https://raw.github.com/junegunn/i/master/goyo.png)
 
+(Color scheme: [seoul256](https://github.com/junegunn/seoul256.vim))
+
 Installation
 ------------
 
