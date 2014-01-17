@@ -267,7 +267,7 @@ function! s:goyo_off()
 
   if goyo_disabled_airline && !exists("#airline")
     AirlineToggle
-    AirlineRefresh
+    silent! AirlineRefresh
   endif
 
   if goyo_disabled_powerline && !exists("#PowerlineMain")
