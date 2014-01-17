@@ -64,6 +64,9 @@ let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
 More examples can be found here:
 [Customization](https://github.com/junegunn/goyo.vim/wiki/Customization)
 
+(If you get the error `Unknown function: s:goyo_before`, define the callback
+functions as globals. e.g. `g:goyo_before`)
+
 Inspiration
 -----------
 
