@@ -21,6 +21,12 @@ Usage
 
 `:Goyo [width]`
 
+You might map this to a key combo in your `.vimrc` like so:
+```vim
+"" Map Goyo toggle to <Leader> + spacebar
+nnoremap <Leader><Space> :Goyo<CR>  
+```
+
 Configuration
 -------------
 
