@@ -50,28 +50,25 @@ change the default settings of Goyo window, you can define before and after
 callbacks as follows in your .vimrc.
 
 ```vim
-function! s:goyo_before()
+function! Goyo_before()
   silent !tmux set status off
   set noshowmode
   set noshowcmd
   " ...
 endfunction
 
-function! s:goyo_after()
+function! Goyo_after()
   silent !tmux set status on
   set showmode
   set showcmd
   " ...
 endfunction
 
-let g:goyo_callbacks = [function('s:goyo_before'), function('s:goyo_after')]
+let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 ```
 
 More examples can be found here:
 [Customization](https://github.com/junegunn/goyo.vim/wiki/Customization)
-
-(If you get the error `Unknown function: s:goyo_before`, define the callback
-functions as globals. e.g. `g:goyo_before`)
 
 Inspiration
 -----------
