@@ -7,6 +7,8 @@ Distraction-free writing in Vim.
 
 (Color scheme: [seoul256](https://github.com/junegunn/seoul256.vim))
 
+Best served with [limelight.vim](https://github.com/junegunn/limelight.vim).
+
 Installation
 ------------
 
@@ -50,21 +52,23 @@ change the default settings of Goyo window, you can define before and after
 callbacks as follows in your .vimrc.
 
 ```vim
-function! Goyo_before()
+function! GoyoBefore()
   silent !tmux set status off
   set noshowmode
   set noshowcmd
+  Limelight
   " ...
 endfunction
 
-function! Goyo_after()
+function! GoyoAfter()
   silent !tmux set status on
   set showmode
   set showcmd
+  Limelight!
   " ...
 endfunction
 
-let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
+let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
 ```
 
 More examples can be found here:
