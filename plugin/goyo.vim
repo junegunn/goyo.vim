@@ -127,6 +127,7 @@ function! s:goyo_on(width)
     \ { 'laststatus':     &laststatus,
     \   'showtabline':    &showtabline,
     \   'fillchars':      &fillchars,
+    \   'winminwidth':    &winminwidth,
     \   'winwidth':       &winwidth,
     \   'winminheight':   &winminheight,
     \   'winheight':      &winheight,
@@ -177,10 +178,10 @@ function! s:goyo_on(width)
   endif
 
   " Global options
-  set winwidth=1
   let &winheight = max([&winminheight, 1])
   set winminheight=1
   set winheight=1
+  set winminwidth=1 winwidth=1
   set laststatus=0
   set showtabline=0
   set noruler
@@ -258,6 +259,10 @@ function! s:goyo_off()
     execute printf('normal! %dG%d|', line, col)
   endif
 
+  let wmw = remove(goyo_revert, 'winminwidth')
+  let ww  = remove(goyo_revert, 'winwidth')
+  let &winwidth     = ww
+  let &winminwidth  = wmw
   let wmh = remove(goyo_revert, 'winminheight')
   let wh  = remove(goyo_revert, 'winheight')
   let &winheight    = max([wmh, 1])
