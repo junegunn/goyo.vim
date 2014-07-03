@@ -64,7 +64,7 @@ function! s:setup_pad(bufnr, vert, size)
   execute win . 'wincmd w'
   execute (a:vert ? 'vertical ' : '') . 'resize ' . max([0, a:size])
   augroup goyop
-    autocmd WinEnter <buffer> call s:blank()
+    autocmd WinEnter,CursorMoved <buffer> call s:blank()
   augroup END
 
   " To hide scrollbars of pad windows in GVim
