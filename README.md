@@ -21,8 +21,10 @@ Use your favorite plugin manager.
 Usage
 -----
 
-- `:Goyo [width]`
+- `:Goyo`
     - Toggle Goyo
+- `:Goyo [width]`
+    - Turn on or resize Goyo
 - `:Goyo!`
     - Turn Goyo off
 
