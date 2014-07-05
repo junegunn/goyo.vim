@@ -21,7 +21,10 @@ Use your favorite plugin manager.
 Usage
 -----
 
-`:Goyo [width]`
+- `:Goyo [width]`
+    - Toggle Goyo
+- `:Goyo!`
+    - Turn Goyo off
 
 You might map this to a key combo in your `.vimrc` like so:
 ```vim

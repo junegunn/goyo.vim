@@ -301,20 +301,26 @@ function! s:goyo_off()
   endif
 endfunction
 
-function! s:goyo(...)
+function! s:goyo(bang, ...)
   let width = a:0 > 0 ? a:1 : get(g:, 'goyo_width', 80)
 
-  if exists('#goyo') == 0
-    call s:goyo_on(width)
-  elseif a:0 > 0
-    let t:goyo_width = width
-    call s:resize_pads()
+  if a:bang
+    if exists('#goyo')
+      call s:goyo_off()
+    endif
   else
-    call s:goyo_off()
+    if exists('#goyo') == 0
+      call s:goyo_on(width)
+    elseif a:0 > 0
+      let t:goyo_width = width
+      call s:resize_pads()
+    else
+      call s:goyo_off()
+    end
   end
 endfunction
 
-command! -nargs=? Goyo call s:goyo(<args>)
+command! -nargs=? -bar -bang Goyo call s:goyo('<bang>' == '!', <args>)
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
