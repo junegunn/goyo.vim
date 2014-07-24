@@ -147,9 +147,9 @@ function! s:goyo_on(width)
   endif
 
   " vim-signify
-  let t:goyo_disabled_signify = exists("b:sy")
+  let t:goyo_disabled_signify = exists('b:sy') && b:sy.active
   if t:goyo_disabled_signify
-    if (b:sy.active)|SignifyToggle|endif
+    SignifyToggle
   endif
 
   " vim-airline
