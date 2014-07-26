@@ -286,7 +286,9 @@ function! s:goyo_off()
   endif
 
   if goyo_disabled_signify
-    silent! if !(b:sy.active)|SignifyToggle|endif
+    silent! if !b:sy.active
+      SignifyToggle
+    endif
   endif
 
   if goyo_disabled_airline && !exists("#airline")
