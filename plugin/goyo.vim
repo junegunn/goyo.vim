@@ -146,6 +146,12 @@ function! s:goyo_on(width)
     silent! GitGutterDisable
   endif
 
+  " vim-signify
+  let t:goyo_disabled_signify = exists('b:sy') && b:sy.active
+  if t:goyo_disabled_signify
+    SignifyToggle
+  endif
+
   " vim-airline
   let t:goyo_disabled_airline = exists("#airline")
   if t:goyo_disabled_airline
@@ -242,6 +248,7 @@ function! s:goyo_off()
 
   let goyo_revert             = t:goyo_revert
   let goyo_disabled_gitgutter = t:goyo_disabled_gitgutter
+  let goyo_disabled_signify   = t:goyo_disabled_signify
   let goyo_disabled_airline   = t:goyo_disabled_airline
   let goyo_disabled_powerline = t:goyo_disabled_powerline
   let goyo_disabled_lightline = t:goyo_disabled_lightline
@@ -276,6 +283,10 @@ function! s:goyo_off()
 
   if goyo_disabled_gitgutter
     silent! GitGutterEnable
+  endif
+
+  if goyo_disabled_signify
+    silent! if !(b:sy.active)|SignifyToggle|endif
   endif
 
   if goyo_disabled_airline && !exists("#airline")
