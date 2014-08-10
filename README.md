@@ -28,10 +28,10 @@ Usage
 - `:Goyo!`
     - Turn Goyo off
 
-You might map this to a key combo in your `.vimrc` like so:
+You might want to define a map for toggling it:
+
 ```vim
-"" Map Goyo toggle to <Leader> + spacebar
-nnoremap <Leader><Space> :Goyo<CR>  
+nnoremap <Leader>G :Goyo<CR>
 ```
 
 Configuration
@@ -41,7 +41,6 @@ Configuration
 - `g:goyo_margin_top` (default: 4)
 - `g:goyo_margin_bottom` (default: 4)
 - `g:goyo_linenr` (default: 0)
-- `g:goyo_callbacks` ([before_funcref, after_funcref])
 
 ### Callbacks
 
@@ -54,11 +53,11 @@ and [vim-gitgutter](https://github.com/airblade/vim-gitgutter) are temporarily
 disabled while in Goyo mode.
 
 If you have other plugins that you want to disable/enable, or if you want to
-change the default settings of Goyo window, you can define before and after
-callbacks as follows in your .vimrc.
+change the default settings of Goyo window, you can set up custom routines
+to be triggered on `GoyoEnter` and `GoyoLeave` events.
 
 ```vim
-function! GoyoBefore()
+function! s:goyo_enter()
   silent !tmux set status off
   set noshowmode
   set noshowcmd
@@ -67,7 +66,7 @@ function! GoyoBefore()
   " ...
 endfunction
 
-function! GoyoAfter()
+function! s:goyo_leave()
   silent !tmux set status on
   set showmode
   set showcmd
@@ -76,7 +75,10 @@ function! GoyoAfter()
   " ...
 endfunction
 
-let g:goyo_callbacks = [function('GoyoBefore'), function('GoyoAfter')]
+autocmd! User GoyoEnter
+autocmd! User GoyoLeave
+autocmd  User GoyoEnter call <SID>goyo_enter()
+autocmd  User GoyoLeave call <SID>goyo_leave()
 ```
 
 More examples can be found here:

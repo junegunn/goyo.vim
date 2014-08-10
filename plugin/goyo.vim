@@ -224,6 +224,7 @@ function! s:goyo_on(width)
   if exists('g:goyo_callbacks[0]')
     call g:goyo_callbacks[0]()
   endif
+  silent! doautocmd User GoyoEnter
 endfunction
 
 function! s:goyo_off()
@@ -312,6 +313,7 @@ function! s:goyo_off()
   if exists('g:goyo_callbacks[1]')
     call g:goyo_callbacks[1]()
   endif
+  silent! doautocmd User GoyoLeave
 endfunction
 
 function! s:goyo(bang, ...)
