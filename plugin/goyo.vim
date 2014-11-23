@@ -1,4 +1,4 @@
-" Copyright (c) 2013 Junegunn Choi
+" Copyright (c) 2014 Junegunn Choi
 "
 " MIT License
 "
@@ -33,13 +33,12 @@ function! s:set_color(group, attr, color)
   execute printf("hi %s %s%s=%s", a:group, gui ? 'gui' : 'cterm', a:attr, a:color)
 endfunction
 
-function! s:blank()
-  let main = bufwinnr(t:goyo_master)
-  if main != -1
-    execute main . 'wincmd w'
-  else
+function! s:blank(repel)
+  if bufwinnr(t:goyo_pads.r) <= bufwinnr(t:goyo_pads.l) + 1
+    \ || bufwinnr(t:goyo_pads.b) <= bufwinnr(t:goyo_pads.t) + 3
     call s:goyo_off()
   endif
+  execute 'wincmd' a:repel
 endfunction
 
 function! s:init_pad(command)
@@ -59,12 +58,12 @@ function! s:init_pad(command)
   return bufnr
 endfunction
 
-function! s:setup_pad(bufnr, vert, size)
+function! s:setup_pad(bufnr, vert, size, repel)
   let win = bufwinnr(a:bufnr)
   execute win . 'wincmd w'
   execute (a:vert ? 'vertical ' : '') . 'resize ' . max([0, a:size])
   augroup goyop
-    autocmd WinEnter,CursorMoved <buffer> nested call s:blank()
+    execute 'autocmd WinEnter,CursorMoved <buffer> nested call s:blank("'.a:repel.'")'
     autocmd WinLeave <buffer> call s:hide_statusline()
   augroup END
 
@@ -93,10 +92,10 @@ function! s:resize_pads()
   augroup goyop
     autocmd!
   augroup END
-  call s:setup_pad(t:goyo_pads.t, 0, tmargin - 1)
-  call s:setup_pad(t:goyo_pads.b, 0, bmargin - 2)
-  call s:setup_pad(t:goyo_pads.l, 1, hmargin / 2 - 1)
-  call s:setup_pad(t:goyo_pads.r, 1, hmargin / 2 - 1)
+  call s:setup_pad(t:goyo_pads.t, 0, tmargin - 1, 'j')
+  call s:setup_pad(t:goyo_pads.b, 0, bmargin - 2, 'k')
+  call s:setup_pad(t:goyo_pads.l, 1, hmargin / 2 - 1, 'l')
+  call s:setup_pad(t:goyo_pads.r, 1, hmargin / 2 - 1, 'h')
 endfunction
 
 function! s:tranquilize()
@@ -117,6 +116,18 @@ endfunction
 
 function! s:hide_statusline()
   let &l:statusline = repeat(' ', winwidth(0))
+endfunction
+
+function! s:hide_linenr()
+  if !get(g:, 'goyo_linenr', 0)
+    setlocal nonu
+    if exists('&rnu')
+      setlocal nornu
+    endif
+  endif
+  if exists('&colorcolumn')
+    setlocal colorcolumn=
+  endif
 endfunction
 
 function! s:goyo_on(width)
@@ -177,16 +188,7 @@ function! s:goyo_on(width)
     silent! call lightline#disable()
   endif
 
-  if !get(g:, 'goyo_linenr', 0)
-    setlocal nonu
-    if exists('&rnu')
-      setlocal nornu
-    endif
-  endif
-  if exists('&colorcolumn')
-    setlocal colorcolumn=
-  endif
-
+  call s:hide_linenr()
   " Global options
   let &winheight = max([&winminheight, 1])
   set winminheight=1
@@ -217,11 +219,11 @@ function! s:goyo_on(width)
 
   augroup goyo
     autocmd!
-    autocmd BufWinLeave <buffer> call s:goyo_off()
     autocmd TabLeave    *        call s:goyo_off()
     autocmd VimResized  *        call s:resize_pads()
     autocmd ColorScheme *        call s:tranquilize()
-    autocmd WinEnter,WinLeave <buffer> call s:hide_statusline()
+    autocmd BufWinEnter *        call s:hide_linenr() | call s:hide_statusline()
+    autocmd WinEnter,WinLeave *  call s:hide_statusline()
   augroup END
 
   call s:hide_statusline()
@@ -268,6 +270,7 @@ function! s:goyo_off()
   tabclose
   execute 'normal! '.s:orig_tab.'gt'
   if winbufnr(0) == goyo_orig_buffer
+    " Doesn't work if window closed with `q`
     execute printf('normal! %dG%d|', line, col)
   endif
 

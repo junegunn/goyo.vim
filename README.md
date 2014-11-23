@@ -96,8 +96,7 @@ Pros.
 1. Works well with splits. Doesn't mess up with the current window arrangement
 1. Works well with popular statusline plugins
 1. Prevents accessing the empty windows around the central buffer
-1. Can be closed with any of `:q[uit]`, `:clo[se]`, `:tabc[lose]`, `:bd[elete]`,
-   or `:Goyo`
+1. Can be closed with any of `:q[uit]`, `:clo[se]`, `:tabc[lose]`, or `:Goyo`
 1. Can dynamically change the width of the window
 1. Adjusts its colors when color scheme is changed
 1. Realigns the window when the terminal (or window) is resized or when the size
