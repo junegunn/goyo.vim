@@ -28,11 +28,8 @@ Usage
 - `:Goyo!`
     - Turn Goyo off
 
-You might want to define a map for toggling it:
-
-```vim
-nnoremap <Leader>G :Goyo<CR>
-```
+The window can be resized with the usual `[count]<CTRL-W>` + `>`, `<`, `+`,
+`-` keys.
 
 Configuration
 -------------

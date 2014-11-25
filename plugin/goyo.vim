@@ -85,17 +85,21 @@ function! s:hmargin()
 endfunction
 
 function! s:resize_pads()
+  let t:goyo_width         = max([2, t:goyo_width])
+  let t:goyo_margin_top    = min([max([2, t:goyo_margin_top]),    &lines / 2 - 1])
+  let t:goyo_margin_bottom = min([max([2, t:goyo_margin_bottom]), &lines / 2 - 1])
+
   let hmargin = s:hmargin()
-  let tmargin = get(g:, 'goyo_margin_top', 4)
-  let bmargin = get(g:, 'goyo_margin_bottom', 4)
 
   augroup goyop
     autocmd!
   augroup END
-  call s:setup_pad(t:goyo_pads.t, 0, tmargin - 1, 'j')
-  call s:setup_pad(t:goyo_pads.b, 0, bmargin - 2, 'k')
+  call s:setup_pad(t:goyo_pads.t, 0, t:goyo_margin_top - 1, 'j')
+  call s:setup_pad(t:goyo_pads.b, 0, t:goyo_margin_bottom - 2, 'k')
   call s:setup_pad(t:goyo_pads.l, 1, hmargin / 2 - 1, 'l')
   call s:setup_pad(t:goyo_pads.r, 1, hmargin / 2 - 1, 'h')
+
+  let t:goyo_width = winwidth(0)
 endfunction
 
 function! s:tranquilize()
@@ -130,6 +134,29 @@ function! s:hide_linenr()
   endif
 endfunction
 
+function! s:maps_nop()
+  let mapped = filter(['R', 'H', 'J', 'K', 'L', '|', '_', '='],
+                    \ "empty(maparg(\"\<c-w>\".v:val, 'n'))")
+  for c in mapped
+    execute 'nnoremap <c-w>'.escape(c, '|').' <nop>'
+  endfor
+  return mapped
+endfunction
+
+function! s:maps_resize()
+  let commands = {
+  \ '>': ':<c-u>let t:goyo_width = winwidth(0) + 2 * v:count1 <bar> call <sid>resize_pads()<cr>',
+  \ '<': ':<c-u>let t:goyo_width = winwidth(0) - 2 * v:count1 <bar> call <sid>resize_pads()<cr>',
+  \ '+': ':<c-u>let t:goyo_margin_top -= v:count1 <bar> let t:goyo_margin_bottom -= v:count1 <bar> call <sid>resize_pads()<cr>',
+  \ '-': ':<c-u>let t:goyo_margin_top += v:count1 <bar> let t:goyo_margin_bottom += v:count1 <bar> call <sid>resize_pads()<cr>'
+  \ }
+  let mapped = filter(keys(commands), "empty(maparg(\"\<c-w>\".v:val, 'n'))")
+  for c in mapped
+    execute 'nnoremap <silent> <c-w>'.c.' '.commands[c]
+  endfor
+  return mapped
+endfunction
+
 function! s:goyo_on(width)
   let s:orig_tab = tabpagenr()
 
@@ -138,6 +165,8 @@ function! s:goyo_on(width)
 
   let t:goyo_master = winbufnr(0)
   let t:goyo_width  = a:width
+  let t:goyo_margin_top = get(g:, 'goyo_margin_top', 4)
+  let t:goyo_margin_bottom = get(g:, 'goyo_margin_bottom', 4)
   let t:goyo_pads = {}
   let t:goyo_revert =
     \ { 'laststatus':     &laststatus,
@@ -151,6 +180,7 @@ function! s:goyo_on(width)
     \   'sidescroll':     &sidescroll,
     \   'sidescrolloff':  &sidescrolloff
     \ }
+  let t:goyo_maps = extend(s:maps_nop(), s:maps_resize())
   if has('gui_running')
     let t:goyo_revert.guioptions = &guioptions
   endif
@@ -252,6 +282,10 @@ function! s:goyo_off()
     autocmd!
   augroup END
   augroup! goyop
+
+  for c in t:goyo_maps
+    execute 'nunmap <c-w>'.escape(c, '|')
+  endfor
 
   let goyo_revert             = t:goyo_revert
   let goyo_disabled_gitgutter = t:goyo_disabled_gitgutter
