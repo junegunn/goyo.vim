@@ -45,7 +45,7 @@ function! s:init_pad(command)
   execute a:command
 
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
-      \ nonu nocursorline nocursorcolumn winfixwidth winfixheight statusline=\ 
+      \ nonu nocursorline nocursorcolumn winfixwidth winfixheight statusline=\
   if exists('&rnu')
     setlocal nornu
   endif
@@ -227,9 +227,9 @@ function! s:goyo_on(width)
   set laststatus=0
   set showtabline=0
   set noruler
-  set fillchars+=vert:\ 
+  set fillchars+=vert:\
   set fillchars+=stl:.
-  set fillchars+=stlnc:\ 
+  set fillchars+=stlnc:\
   set sidescroll=1
   set sidescrolloff=0
 
@@ -378,6 +378,11 @@ endfunction
 
 command! -nargs=? -bar -bang Goyo call s:goyo('<bang>' == '!', <args>)
 
+if !hasmapto('<Plug>Goyo')
+    exe "map <unique> <F11> <Plug>Goyo"
+endif
+
+nnoremap <unique> <script> <Plug>Goyo :Goyo<CR>
+
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
