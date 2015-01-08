@@ -218,6 +218,12 @@ function! s:goyo_on(width)
     silent! call lightline#disable()
   endif
 
+  " vim-pandoc folding
+  let t:goyo_disabled_pandocfolding = &l:foldexpr == "pandoc#folding#FoldExpr()"
+  if t:goyo_disabled_pandocfolding
+      call pandoc#folding#Disable()
+  endif
+
   call s:hide_linenr()
   " Global options
   let &winheight = max([&winminheight, 1])
@@ -293,6 +299,7 @@ function! s:goyo_off()
   let goyo_disabled_airline   = t:goyo_disabled_airline
   let goyo_disabled_powerline = t:goyo_disabled_powerline
   let goyo_disabled_lightline = t:goyo_disabled_lightline
+  let goyo_disabled_pandocfolding = t:goyo_disabled_pandocfolding
   let goyo_orig_buffer        = t:goyo_master
   let [line, col]             = [line('.'), col('.')]
 
@@ -345,6 +352,10 @@ function! s:goyo_off()
 
   if goyo_disabled_lightline
     silent! call lightline#enable()
+  endif
+
+  if goyo_disabled_pandocfolding
+    silent! call pandoc#folding#Init()
   endif
 
   if exists('#Powerline')
