@@ -135,7 +135,7 @@ function! s:hide_linenr()
 endfunction
 
 function! s:maps_nop()
-  let mapped = filter(['R', 'H', 'J', 'K', 'L', '|', '_', '='],
+  let mapped = filter(['R', 'H', 'J', 'K', 'L', '|', '_'],
                     \ "empty(maparg(\"\<c-w>\".v:val, 'n'))")
   for c in mapped
     execute 'nnoremap <c-w>'.escape(c, '|').' <nop>'
@@ -145,6 +145,7 @@ endfunction
 
 function! s:maps_resize()
   let commands = {
+  \ '=': ':<c-u>let [t:goyo_width, t:goyo_margin_top, t:goyo_margin_bottom] = t:goyo_initial_dim <bar> call <sid>resize_pads()<cr>',
   \ '>': ':<c-u>let t:goyo_width = winwidth(0) + 2 * v:count1 <bar> call <sid>resize_pads()<cr>',
   \ '<': ':<c-u>let t:goyo_width = winwidth(0) - 2 * v:count1 <bar> call <sid>resize_pads()<cr>',
   \ '+': ':<c-u>let t:goyo_margin_top -= v:count1 <bar> let t:goyo_margin_bottom -= v:count1 <bar> call <sid>resize_pads()<cr>',
@@ -167,6 +168,7 @@ function! s:goyo_on(width)
   let t:goyo_width  = a:width
   let t:goyo_margin_top = get(g:, 'goyo_margin_top', 4)
   let t:goyo_margin_bottom = get(g:, 'goyo_margin_bottom', 4)
+  let t:goyo_initial_dim = [t:goyo_width, t:goyo_margin_top, t:goyo_margin_bottom]
   let t:goyo_pads = {}
   let t:goyo_revert =
     \ { 'laststatus':     &laststatus,
