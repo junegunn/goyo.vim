@@ -91,18 +91,18 @@ function! s:resize_pads()
   let t:goyo_dim.height = s:const(t:goyo_dim.height, 2, &lines)
 
   let vmargin = max([0, (&lines - t:goyo_dim.height) / 2 - 1])
-  let t:goyo_dim.yoff = s:const(t:goyo_dim.yoff, - vmargin, vmargin)
-  let top = vmargin + t:goyo_dim.yoff
-  let bot = vmargin - t:goyo_dim.yoff - 1
+  let yoff = s:const(t:goyo_dim.yoff, - vmargin, vmargin)
+  let top = vmargin + yoff
+  let bot = vmargin - yoff - 1
   call s:setup_pad(t:goyo_pads.t, 0, top, 'j')
   call s:setup_pad(t:goyo_pads.b, 0, bot, 'k')
 
   let nwidth  = max([len(string(line('$'))) + 1, &numberwidth])
   let width   = t:goyo_dim.width + (&number ? nwidth : 0)
   let hmargin = max([0, (&columns - width) / 2 - 1])
-  let t:goyo_dim.xoff = s:const(t:goyo_dim.xoff, - hmargin, hmargin)
-  call s:setup_pad(t:goyo_pads.l, 1, hmargin + t:goyo_dim.xoff, 'l')
-  call s:setup_pad(t:goyo_pads.r, 1, hmargin - t:goyo_dim.xoff, 'h')
+  let xoff    = s:const(t:goyo_dim.xoff, - hmargin, hmargin)
+  call s:setup_pad(t:goyo_pads.l, 1, hmargin + xoff, 'l')
+  call s:setup_pad(t:goyo_pads.r, 1, hmargin - xoff, 'h')
 endfunction
 
 function! s:tranquilize()
