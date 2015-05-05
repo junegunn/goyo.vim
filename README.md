@@ -35,7 +35,7 @@ The window can be resized with the usual `[count]<CTRL-W>` + `>`, `<`, `+`,
 
 The expected format of a dimension expression is
 `[WIDTH][XOFFSET][x[HEIGHT][YOFFSET]]`. `XOFFSET` and `YOFFSET` should be
-prefixed by `+` or `-`. Each component can be given in percantage.
+prefixed by `+` or `-`. Each component can be given in percentage.
 
 ```vim
 " Width
@@ -48,7 +48,7 @@ Goyo x30
 Goyo 120x30
 
 " In percentage
-Goyo 70%x50%
+Goyo 120x50%
 
 " With offsets
 Goyo 50%+25%x50%-25%
