@@ -374,12 +374,20 @@ function! s:relsz(expr, limit)
 endfunction
 
 function! s:parse_arg(arg)
-  let top = max([0, s:relsz(get(g:, 'goyo_margin_top', 4), &lines)])
-  let bot = max([0, s:relsz(get(g:, 'goyo_margin_bottom', 4), &lines)])
+  if exists('g:goyo_height') || !exists('g:goyo_margin_top') && !exists('g:goyo_margin_bottom')
+    let height = s:relsz(get(g:, 'goyo_height', '85%'), &lines)
+    let yoff = 0
+  else
+    let top = max([0, s:relsz(get(g:, 'goyo_margin_top', 4), &lines)])
+    let bot = max([0, s:relsz(get(g:, 'goyo_margin_bottom', 4), &lines)])
+    let height = &lines - top - bot
+    let yoff = top - bot
+  endif
+
   let dim = { 'width':  s:relsz(get(g:, 'goyo_width', 80), &columns),
-            \ 'height': &lines - top - bot,
+            \ 'height': height,
             \ 'xoff':   0,
-            \ 'yoff':   top - bot }
+            \ 'yoff':   yoff }
   if empty(a:arg)
     return dim
   endif
