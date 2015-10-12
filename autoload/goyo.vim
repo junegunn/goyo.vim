@@ -417,6 +417,10 @@ function! goyo#execute(bang, dim)
     if exists('#goyo') == 0
       call s:goyo_on(a:dim)
     elseif !empty(a:dim)
+      if winnr('$') < 5
+        call s:goyo_off()
+        return goyo#execute(a:bang, a:dim)
+      endif
       let dim = s:parse_arg(a:dim)
       if !empty(dim)
         let t:goyo_dim = dim
