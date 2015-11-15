@@ -269,7 +269,9 @@ function! s:goyo_on(dim)
   if exists('g:goyo_callbacks[0]')
     call g:goyo_callbacks[0]()
   endif
-  silent! doautocmd User GoyoEnter
+  if exists('#User#GoyoEnter')
+    doautocmd User GoyoEnter
+  endif
 endfunction
 
 function! s:goyo_off()
@@ -366,7 +368,9 @@ function! s:goyo_off()
   if exists('g:goyo_callbacks[1]')
     call g:goyo_callbacks[1]()
   endif
-  silent! doautocmd User GoyoLeave
+  if exists('#User#GoyoLeave')
+    doautocmd User GoyoLeave
+  endif
 endfunction
 
 function! s:relsz(expr, limit)
