@@ -106,7 +106,7 @@ function! s:resize_pads()
 endfunction
 
 function! s:tranquilize()
-  let bg = s:get_color('Normal', 'bg')
+  let bg = s:get_color('Normal', 'bg#')
   for grp in ['NonText', 'FoldColumn', 'ColorColumn', 'VertSplit',
             \ 'StatusLine', 'StatusLineNC', 'SignColumn']
     " -1 on Vim / '' on GVim
