@@ -222,7 +222,7 @@ function! s:goyo_on(dim)
   endif
 
   " lightline.vim
-  let t:goyo_disabled_lightline = exists('#LightLine')
+  let t:goyo_disabled_lightline = exists('#lightline')
   if t:goyo_disabled_lightline
     silent! call lightline#disable()
   endif
