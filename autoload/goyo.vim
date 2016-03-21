@@ -346,9 +346,6 @@ function! s:goyo_off()
 
   if goyo_disabled_airline && !exists('#airline')
     AirlineToggle
-    " For some reason, Airline requires two refreshes to avoid display
-    " artifacts
-    silent! AirlineRefresh
     silent! AirlineRefresh
   endif
 
