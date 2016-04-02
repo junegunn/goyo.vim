@@ -263,6 +263,10 @@ function! s:goyo_on(dim)
     autocmd ColorScheme *        call s:tranquilize()
     autocmd BufWinEnter *        call s:hide_linenr() | call s:hide_statusline()
     autocmd WinEnter,WinLeave *  call s:hide_statusline()
+    if has("nvim")
+      autocmd VimResized * normal =
+      autocmd TermClose * call feedkeys("\<C-w>=")
+    endif
   augroup END
 
   call s:hide_statusline()
