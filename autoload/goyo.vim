@@ -122,7 +122,7 @@ function! s:tranquilize()
 endfunction
 
 function! s:hide_statusline()
-  let &l:statusline = repeat(' ', winwidth(0))
+  setlocal statusline=\ 
 endfunction
 
 function! s:hide_linenr()
