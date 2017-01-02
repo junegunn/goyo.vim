@@ -239,7 +239,7 @@ function! s:goyo_on(dim)
   set showtabline=0
   set noruler
   set fillchars+=vert:\ 
-  set fillchars+=stl:.
+  set fillchars+=stl:\ 
   set fillchars+=stlnc:\ 
   set sidescroll=1
   set sidescrolloff=0
