@@ -293,11 +293,11 @@ function! s:goyo_off()
   augroup goyo
     autocmd!
   augroup END
-  augroup! goyo
+  silent augroup! goyo
   augroup goyop
     autocmd!
   augroup END
-  augroup! goyop
+  silent augroup! goyop
 
   for c in t:goyo_maps
     execute 'nunmap <c-w>'.escape(c, '|')
