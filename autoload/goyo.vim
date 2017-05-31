@@ -261,7 +261,7 @@ function! s:goyo_on(dim)
   augroup goyo
     autocmd!
     autocmd TabLeave    *        call s:goyo_off()
-    autocmd VimResized  *        call s:resize_pads()
+    autocmd VimResized  *        let t:goyo_dim = s:parse_arg(t:goyo_dim_expr) | call s:resize_pads()
     autocmd ColorScheme *        call s:tranquilize()
     autocmd BufWinEnter *        call s:hide_linenr() | call s:hide_statusline()
     autocmd WinEnter,WinLeave *  call s:hide_statusline()
