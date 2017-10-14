@@ -229,6 +229,12 @@ function! s:goyo_on(dim)
     silent! call lightline#disable()
   endif
 
+  " numbers.vim
+  let t:goyo_disabled_numbers = exists("g:loaded_numbers") && g:loaded_numbers
+  if t:goyo_disabled_numbers
+    NumbersDisable
+  endif
+
   call s:hide_linenr()
   " Global options
   let &winheight = max([&winminheight, 1])
@@ -309,6 +315,7 @@ function! s:goyo_off()
   let goyo_disabled_airline   = t:goyo_disabled_airline
   let goyo_disabled_powerline = t:goyo_disabled_powerline
   let goyo_disabled_lightline = t:goyo_disabled_lightline
+  let goyo_disabled_numbers   = t:goyo_disabled_numbers
   let goyo_orig_buffer        = t:goyo_master
   let [line, col]             = [line('.'), col('.')]
 
@@ -364,6 +371,10 @@ function! s:goyo_off()
 
   if goyo_disabled_lightline
     silent! call lightline#enable()
+  endif
+
+  if goyo_disabled_numbers
+    NumbersEnable
   endif
 
   if exists('#Powerline')
