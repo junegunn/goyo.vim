@@ -49,7 +49,7 @@ function! s:init_pad(command)
   execute a:command
 
   setlocal buftype=nofile bufhidden=wipe nomodifiable nobuflisted noswapfile
-      \ nonu nocursorline nocursorcolumn winfixwidth winfixheight statusline=\ 
+      \ nonu nocursorline nocursorcolumn winfixwidth winfixheight statusline=\
   if exists('&rnu')
     setlocal nornu
   endif
@@ -122,7 +122,7 @@ function! s:tranquilize()
 endfunction
 
 function! s:hide_statusline()
-  setlocal statusline=\ 
+  setlocal statusline=\
 endfunction
 
 function! s:hide_linenr()
@@ -238,9 +238,9 @@ function! s:goyo_on(dim)
   set laststatus=0
   set showtabline=0
   set noruler
-  set fillchars+=vert:\ 
-  set fillchars+=stl:\ 
-  set fillchars+=stlnc:\ 
+  set fillchars+=vert:\
+  set fillchars+=stl:\
+  set fillchars+=stlnc:\
   set sidescroll=1
   set sidescrolloff=0
 
@@ -403,7 +403,7 @@ function! s:parse_arg(arg)
   if empty(a:arg)
     return dim
   endif
-  let parts = matchlist(a:arg, '^\s*\([0-9]\+%\?\)\?\([+-][0-9]\+%\?\)\?\%(x\([0-9]\+%\?\)\?\([+-][0-9]\+%\?\)\?\)\?\s*$')
+  let parts = matchlist(a:arg, '^\s*\([0-9]\+%\?\)\?\([+-][0-9]\+%\?\)\?\(x\([0-9]\+%\?\)\?\([+-][0-9]\+%\?\)\?\)\?\s*$')
   if empty(parts)
     echohl WarningMsg
     echo 'Invalid dimension expression: '.a:arg
