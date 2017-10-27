@@ -103,6 +103,35 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 More examples can be found here:
 [Customization](https://github.com/junegunn/goyo.vim/wiki/Customization)
 
+### Advanced configuration
+
+Goyo reloads the color scheme on exit, therefore, custom patches will be lost.
+To reliably apply custom colors, autocmd ColorScheme can be used as suggested below.
+
+in .vimrc
+```vim
+" Override Colors in a Color Scheme
+fun! s:patch_colorscheme()
+    hi clear LineNr
+    hi clear SignColumn
+endf
+```
+
+```vim
+" Set colorscheme and patch it
+colo seoul256
+call s:patch_colorscheme()
+```
+
+```vim
+" Re-patch colorscheme whenever ColorScheme is applied
+aug patch_colors
+  au!
+  au ColorScheme * call s:patch_colorscheme()
+aug END
+```
+source [#84](https://github.com/junegunn/goyo.vim/issues/84) and [vim.wikia](http://vim.wikia.com/wiki/Override_Colors_in_a_Color_Scheme)
+
 Inspiration
 -----------
 
@@ -127,4 +156,3 @@ License
 -------
 
 MIT
-
