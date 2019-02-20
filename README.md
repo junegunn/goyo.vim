@@ -29,7 +29,7 @@ Usage
     - Turn Goyo off
 
 The window can be resized with the usual `[count]<CTRL-W>` + `>`, `<`, `+`,
-`-` keys.
+`-` keys, and `<CTRL-W>` + `=` will resize it back to the initial size.
 
 ### Dimension expression
 
