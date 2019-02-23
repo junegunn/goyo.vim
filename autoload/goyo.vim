@@ -132,8 +132,7 @@ function! s:untranquilize()
         execute 'hi clear ' . group.name ' | hi link ' . group.name . ' ' . group.links_to
       else
         let prefix = was_gui ? 'gui' : 'cterm'
-        let cmd = 'hi ' . group.name . ' ' . prefix . 'fg=' . group.fg . ' ' . prefix . 'bg=' . group.bg . ' ' . prefix . '=' . group.style_attrs 
-        execute cmd
+        execute 'hi ' . group.name . ' ' . prefix . 'fg=' . group.fg . ' ' . prefix . 'bg=' . group.bg . ' ' . prefix . '=' . group.style_attrs 
       endif
     endfor
     unlet s:tranq_revert
