@@ -402,7 +402,6 @@ function! s:goyo_off()
     execute printf('let &%s = %s', k, string(v))
   endfor
   call s:untranquilize()
-  "execute 'colo '. get(g:, 'colors_name', 'default')
 
   if goyo_disabled_gitgutter
     silent! GitGutterEnable
