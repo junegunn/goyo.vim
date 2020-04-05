@@ -107,6 +107,16 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 More examples can be found here:
 [Customization](https://github.com/junegunn/goyo.vim/wiki/Customization)
 
+### Auto startup and exitting
+
+```vim
+" Enable Goyo at startup Vim
+autocmd! VimEnter * Goyo
+
+" Exit Vim at exitting Goyo
+autocmd! User GoyoLeave q
+```
+
 Inspiration
 -----------
 
