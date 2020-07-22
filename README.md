@@ -41,9 +41,9 @@ Use your favorite plugin manager.
      variable and a bash function defined. You may now install
      plugins by simply running viminstallplugin eg:
                  
-```bash         
-     viminstallplugin https://github.com/reedes/vim-pencil 
-```
+    ```bash         
+         viminstallplugin https://github.com/reedes/vim-pencil 
+    ```
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
   1. Add `Plug 'junegunn/goyo.vim'` to .vimrc
