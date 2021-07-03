@@ -109,6 +109,11 @@ function! s:tranquilize()
   let bg = s:get_color('Normal', 'bg#')
   for grp in ['NonText', 'FoldColumn', 'ColorColumn', 'VertSplit',
             \ 'StatusLine', 'StatusLineNC', 'SignColumn']
+
+    if grp == 'ColorColumn' && get(g:, 'goyo_colorcolumn', 0)
+      continue
+    endif
+
     " -1 on Vim / '' on GVim
     if bg == -1 || empty(bg)
       call s:set_color(grp, 'fg', get(g:, 'goyo_bg', 'black'))
@@ -132,7 +137,7 @@ function! s:hide_linenr()
       setlocal nornu
     endif
   endif
-  if exists('&colorcolumn')
+  if exists('&colorcolumn') && !get(g:, 'goyo_colorcolumn', 0)
     setlocal colorcolumn=
   endif
 endfunction
