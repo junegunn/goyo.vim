@@ -122,6 +122,8 @@ be triggered on `GoyoEnter` and `GoyoLeave` events.
     autocmd! User GoyoEnter nested call <SID>goyo_enter()
     autocmd! User GoyoLeave nested call <SID>goyo_leave()
 <
+For even earlier callbacks, you can use `GoyoPreEnter` and `GoyoPreLeave`.
+
 More examples can be found here: {Customization}{10}
 
                   {4} https://github.com/bling/vim-airline

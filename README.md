@@ -104,6 +104,8 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 ```
 
+For even earlier callbacks, you can use `GoyoPreEnter` and `GoyoPreLeave`.
+
 More examples can be found here:
 [Customization](https://github.com/junegunn/goyo.vim/wiki/Customization)
 
