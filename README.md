@@ -57,9 +57,12 @@ Goyo 50%+25%x50%-25%
 Configuration
 -------------
 
-- `g:goyo_width` (default: 80)
-- `g:goyo_height` (default: 85%)
-- `g:goyo_linenr` (default: 0)
+The `b:` variables take precedence over the `g:` variables, if present.
+
+ - `b:goyo_width`, `g:goyo_width` (default: value of `'textwidth'`, or 80 if
+   unset)
+ - `b:goyo_height`, `g:goyo_height` (default: 85%)
+ - `b:goyo_linenr`, `g:goyo_linenr` (default: 0)
 
 ### Callbacks
 
