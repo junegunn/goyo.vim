@@ -169,6 +169,10 @@ function! s:goyo_on(dim)
     return
   endif
 
+  if exists('#User#GoyoPreEnter')
+    doautocmd User GoyoPreEnter
+  endif
+
   let s:orig_tab = tabpagenr()
   let settings =
     \ { 'laststatus':    &laststatus,
@@ -287,6 +291,10 @@ function! s:goyo_off()
   " Oops, not this tab
   if !exists('t:goyo_revert')
     return
+  endif
+
+  if exists('#User#GoyoPreLeave')
+    doautocmd User GoyoPreLeave
   endif
 
   " Clear auto commands
