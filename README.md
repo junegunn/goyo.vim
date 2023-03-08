@@ -12,7 +12,13 @@ Best served with [limelight.vim](https://github.com/junegunn/limelight.vim).
 Installation
 ------------
 
-Use your favorite plugin manager.
+### Vim 8+
+
+- [vim 8+ native package manager](https://www.danielfranklin.id.au/vim-8-package-management/)
+  1. clone into `.vim/pack/plugins/start`
+  2. Make sure to include `packloadall` in your `.vimrc`.
+
+### vim-plug
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
   1. Add `Plug 'junegunn/goyo.vim'` to .vimrc
