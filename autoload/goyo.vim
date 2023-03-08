@@ -32,6 +32,20 @@ function! s:get_color(group, attr)
   return synIDattr(synIDtrans(hlID(a:group)), a:attr)
 endfunction
 
+let s:style_attrs = ['bold', 'italic', 'reverse', 'inverse', 'standout', 'underline', 'undercurl']
+function! s:get_style_attrs(group)
+  let result = ''
+  for name in s:style_attrs
+    if synIDattr(a:group, name) == 1
+      let result .= name . ','
+    endif
+  endfor
+  if len(result) > 0
+    let result = result[:-2]
+  endif
+  return result
+endfunction
+
 function! s:set_color(group, attr, color)
   let gui = has('gui_running') || has('termguicolors') && &termguicolors
   execute printf('hi %s %s%s=%s', a:group, gui ? 'gui' : 'cterm', a:attr, a:color)
@@ -107,10 +121,59 @@ function! s:resize_pads()
   call s:setup_pad(t:goyo_pads.r, 1, hmargin - xoff, 'h')
 endfunction
 
+let s:tranq_grps = ['NonText', 'FoldColumn', 'ColorColumn', 'VertSplit',
+          \ 'StatusLine', 'StatusLineNC', 'SignColumn']
+"let s:tranq_revert = {'was_gui':0, 'groups': []}
+"
+function! s:untranquilize()
+  if exists("s:tranq_revert")
+    let was_gui = s:tranq_revert.was_gui
+    let groups = s:tranq_revert.groups
+    for group in groups
+      if group.links_to != ''
+        execute 'hi clear ' . group.name ' | hi link ' . group.name . ' ' . group.links_to
+      else
+        let prefix = was_gui ? 'gui' : 'cterm'
+        execute 'hi ' . group.name . ' ' . prefix . 'fg=' . group.fg . ' ' . prefix . 'bg=' . group.bg . ' ' . prefix . '=' . group.style_attrs 
+      endif
+    endfor
+    unlet s:tranq_revert
+  endif
+endfunction
 function! s:tranquilize()
+  if exists('s:tranq_revert')
+    call s:untranquilize()
+  endif
   let bg = s:get_color('Normal', 'bg#')
-  for grp in ['NonText', 'FoldColumn', 'ColorColumn', 'VertSplit',
-            \ 'StatusLine', 'StatusLineNC', 'SignColumn']
+  let was_gui = has('gui_running') || has('termguicolors') && &termguicolors
+  let s:tranq_revert = {}
+  let s:tranq_revert.was_gui = was_gui
+  let s:tranq_revert.groups = []
+  let revert_grps = s:tranq_revert.groups
+  for grp in s:tranq_grps
+    let grp_id = hlID(grp)
+    let trans_id = synIDtrans(grp_id)
+    let revert_grp = {}
+    let revert_grp.id = grp_id
+    let revert_grp.name = synIDattr(grp_id, 'name')
+    call add(revert_grps, revert_grp)
+    if trans_id != grp_id
+      let revert_grp.links_to = synIDattr(trans_id, 'name')
+    else
+      let revert_grp.links_to = ''
+      let revert_grp.fg = synIDattr(trans_id, 'fg')
+      let revert_grp.bg = synIDattr(trans_id, 'bg')
+      let revert_grp.style_attrs = s:get_style_attrs(trans_id)
+      if revert_grp.fg == ''
+        let revert_grp.fg = 'NONE'
+      endif
+      if revert_grp.bg == ''
+        let revert_grp.bg = 'NONE'
+      endif
+      if revert_grp.style_attrs == ''
+        let revert_grp.style_attrs = 'NONE'
+      endif
+    endif
     " -1 on Vim / '' on GVim
     if bg == -1 || empty(bg)
       call s:set_color(grp, 'fg', get(g:, 'goyo_bg', 'black'))
@@ -339,7 +402,7 @@ function! s:goyo_off()
   for [k, v] in items(goyo_revert)
     execute printf('let &%s = %s', k, string(v))
   endfor
-  execute 'colo '. get(g:, 'colors_name', 'default')
+  call s:untranquilize()
 
   if goyo_disabled_gitgutter
     silent! GitGutterEnable
