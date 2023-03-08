@@ -14,6 +14,37 @@ Installation
 
 Use your favorite plugin manager.
 
+- Vim's built in plugin manager (8.0+)
+  1. If you haven't used Vim's built in package manager yet you need to create
+     the directory in which to install packages.
+     
+     ```bash 
+     mkdir -p ~/.vim/pack/plugins/start
+     ```
+  2. You can then clone this repo to that directory with
+     
+     ```bash
+     git clone git@github.com:reedes/vim-pencil.git ~/.vim/pack/plugins/start
+     ```
+  3. To make this easier add the following to your .bashrc
+  
+     ```bash
+     #Vim plugins
+     export VIMPLUGINS=~/.vim/pack/plugins/start 
+     viminstallplugin() {
+         pushd $VIMPLUGINS
+         git clone $*  
+         popd
+     }
+     ```
+     Run source ~/.bashrc and then you will have an environment
+     variable and a bash function defined. You may now install
+     plugins by simply running viminstallplugin eg:
+                 
+    ```bash         
+         viminstallplugin https://github.com/reedes/vim-pencil 
+    ```
+
 - [vim-plug](https://github.com/junegunn/vim-plug)
   1. Add `Plug 'junegunn/goyo.vim'` to .vimrc
   2. Run `:PlugInstall`
