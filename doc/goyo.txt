@@ -81,11 +81,16 @@ prefixed by `+` or `-`. Each component can be given in percentage.
 CONFIGURATION                                               *goyo-configuration*
 ==============================================================================
 
+                                      *b:goyo_width* *b:goyo_height* *b:goyo_linenr*
                                       *g:goyo_width* *g:goyo_height* *g:goyo_linenr*
 
- - `g:goyo_width` (default: 80)
- - `g:goyo_height` (default: 85%)
- - `g:goyo_linenr` (default: 0)
+The `b:` variables take precedence over the `g:` variables, if present. See
+|buffer-variable| for more.
+
+ - `b:goyo_width`, `g:goyo_width` (default: value of 'textwidth', or 80 if
+   unset)
+ - `b:goyo_height`, `g:goyo_height` (default: 85%)
+ - `b:goyo_linenr`, `g:goyo_linenr` (default: 0)
 
 
 < Callbacks >_________________________________________________________________~

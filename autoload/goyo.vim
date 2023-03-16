@@ -128,7 +128,7 @@ function! s:hide_statusline()
 endfunction
 
 function! s:hide_linenr()
-  if !get(g:, 'goyo_linenr', 0)
+  if !get(b:, 'goyo_linenr', get(g:, 'goyo_linenr', 0))
     setlocal nonu
     if exists('&rnu')
       setlocal nornu
@@ -388,8 +388,10 @@ function! s:relsz(expr, limit)
 endfunction
 
 function! s:parse_arg(arg)
-  if exists('g:goyo_height') || !exists('g:goyo_margin_top') && !exists('g:goyo_margin_bottom')
-    let height = s:relsz(get(g:, 'goyo_height', '85%'), &lines)
+  if exists('b:goyo_height') || exists('g:goyo_height') ||
+        \ (!exists('g:goyo_margin_top') && !exists('g:goyo_margin_bottom'))
+    let goyo_height = get(b:, 'goyo_height', get(g:, 'goyo_height', '85%'))
+    let height = s:relsz(goyo_height, &lines)
     let yoff = 0
   else
     let top = max([0, s:relsz(get(g:, 'goyo_margin_top', 4), &lines)])
@@ -398,7 +400,11 @@ function! s:parse_arg(arg)
     let yoff = top - bot
   endif
 
-  let dim = { 'width':  s:relsz(get(g:, 'goyo_width', 80), &columns),
+  " Add 1 otherwise the viewport will be off-by-one and cause lines to wrap
+  " even if something like `gq` would not have wrapped the line.
+  let default_width = &textwidth != 0 ? &textwidth + 1 : 80
+  let goyo_width = get(b:, 'goyo_width', get(g:, 'goyo_width', default_width))
+  let dim = { 'width':  s:relsz(goyo_width, &columns),
             \ 'height': height,
             \ 'xoff':   0,
             \ 'yoff':   yoff }
