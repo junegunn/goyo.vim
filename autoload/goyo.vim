@@ -70,7 +70,7 @@ function! s:setup_pad(bufnr, vert, size, repel)
   execute (a:vert ? 'vertical ' : '') . 'resize ' . max([0, a:size])
   augroup goyop
     execute 'autocmd WinEnter,CursorMoved <buffer> nested call s:blank("'.a:repel.'")'
-    autocmd WinLeave <buffer> call s:hide_statusline()
+    autocmd WinLeave <buffer> call s:hide_statusline() | setlocal nornu
   augroup END
 
   " To hide scrollbars of pad windows in GVim
