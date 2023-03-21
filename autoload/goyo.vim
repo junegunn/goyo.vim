@@ -85,6 +85,10 @@ function! s:setup_pad(bufnr, vert, size, repel)
 endfunction
 
 function! s:resize_pads()
+  if !exists('t:goyo_pads_setup') || !t:goyo_pads_setup
+    return
+  endif
+
   augroup goyop
     autocmd!
   augroup END
@@ -256,6 +260,7 @@ function! s:goyo_on(dim)
   let t:goyo_pads.r = s:init_pad('vertical botright new')
   let t:goyo_pads.t = s:init_pad('topleft new')
   let t:goyo_pads.b = s:init_pad('botright new')
+  let t:goyo_pads_setup = 1
 
   call s:resize_pads()
   call s:tranquilize()
@@ -378,6 +383,8 @@ function! s:goyo_off()
   if exists('#User#GoyoLeave')
     doautocmd User GoyoLeave
   endif
+
+  let t:goyo_pads_setup = 0
 endfunction
 
 function! s:relsz(expr, limit)
