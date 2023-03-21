@@ -267,6 +267,7 @@ function! s:goyo_on(dim)
     autocmd ColorScheme *        call s:tranquilize()
     autocmd BufWinEnter *        call s:hide_linenr() | call s:hide_statusline()
     autocmd WinEnter,WinLeave *  call s:hide_statusline()
+    autocmd BufWriteCmd,FileWriteCmd *  call s:hide_statusline()
     if has('nvim')
       autocmd TermClose * call feedkeys("\<plug>(goyo-resize)")
     endif
