@@ -21,4 +21,9 @@
 " OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+if exists('g:loaded_goyo')
+  finish
+endif
+let g:loaded_goyo = 1
+
 command! -nargs=? -bar -bang Goyo call goyo#execute(<bang>0, <q-args>)
