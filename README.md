@@ -63,6 +63,13 @@ Configuration
 - `g:goyo_decoration_elements` (default: ['~'])
 - `g:goyo_decoration_density` (default: 0.00, range 0.00-1.00)
 
+The `b:` variables take precedence over the `g:` variables, if present.
+
+ - `b:goyo_width`, `g:goyo_width` (default: value of `'textwidth'`, or 80 if
+   unset)
+ - `b:goyo_height`, `g:goyo_height` (default: 85%)
+ - `b:goyo_linenr`, `g:goyo_linenr` (default: 0)
+
 ### Callbacks
 
 By default, [vim-airline](https://github.com/bling/vim-airline),
